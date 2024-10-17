@@ -1,0 +1,37 @@
+{
+    "/": {
+        "GET": {
+            "controller": "Home",
+            "handler": "index"
+        }
+    },
+    "/login": {
+        "GET": {
+            "controller": "Home",
+            "handler": "displayLogin"
+        },
+        "POST": {
+            "controller": "Auth",
+            "handler": "login"
+        }
+    },
+    "/signup": {
+        "GET": {
+            "controller": "Home",
+            "handler": "displaySignup"
+        },
+        "POST": {
+            "controller": "Auth",
+            "handler": "signup"
+        }
+    },
+    "/quiz/:quizId": {
+        "GET": {
+            "controller": "Quiz",
+            "handler": "getQuiz",
+            "params": {
+                "quizId": "string"
+            }
+        }
+    }
+}
