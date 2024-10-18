@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Core\App;
 use App\Core\Router;
 use App\Utils\Config;
+use App\Utils\EnvManager;
 use App\Utils\Request;
 
 // Define document root
@@ -17,6 +18,7 @@ require BOOTSTRAP_FOLDER    . 'autoloader.php';
 
 
 // Load the environment variables
+EnvManager::loadEnv(DOCUMENT_ROOT . '.env');
 
 
 // Set up application
