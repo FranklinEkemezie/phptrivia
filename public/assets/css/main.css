@@ -1,0 +1,76 @@
+@import url("roboto.css");
+
+:root {
+    --phptrivia-primary: #4f5b93;
+    --phptrivia-secondary: #8993C1;
+
+    --phptrivia-white: #ffffff;
+}
+
+html,
+body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1;
+}
+
+/* Disable Bootstrap default */
+a {
+    text-decoration: none !important;
+    color: var(--phptrivia-primary) !important;
+}
+a:hover {
+    color: var(--phptrivia-secondary) !important;
+}
+
+.text-primary {
+    color: var(--phptrivia-primary) !important;
+}
+
+.text-secondary {
+    color: var(--phptrivia-secondary) !important;
+}
+
+.btn {
+    box-shadow: none !important;
+}
+.btn-primary {
+    background-color: var(--phptrivia-primary) !important;
+    border-color: var(--phptrivia-primary) !important;
+    color: var(--phptrivia-white) !important;
+}
+.btn-primary:hover {
+    background-color: var(--phptrivia-secondary) !important;
+    border-color: var(--phptrivia-secondary) !important;
+    color: var(--phptrivia-white) !important;
+}
+.btn-outline-primary {
+    border-color: var(--phptrivia-primary) !important;
+    color: var(--phptrivia-primary) !important;
+}
+.btn-outline-primary:hover {
+    background-color: var(--phptrivia-primary) !important;
+    color: var(--phptrivia-white) !important;
+}
+
+.form-control,
+.form-select {
+    box-shadow: none !important;
+}
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--phptrivia-secondary);
+}
+
+

@@ -26,6 +26,17 @@ class Request
         $this->httpVersion  = $serverVariables['SERVER_PROTOCOL'];
     }
 
+    public function POST(): array
+    {
+
+        return [];
+    }
+
+    public function GET(): array
+    {
+        return [];
+    }
+
 
     public function __get(string $name): mixed
     {

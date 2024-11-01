@@ -2,24 +2,25 @@
 
 declare(strict_types=1);
 
+use App\Controllers\ErrorController;
 use App\Core\App;
 use App\Core\Router;
 use App\Utils\Config;
 use App\Utils\EnvManager;
+use App\Utils\Logger;
 use App\Utils\Request;
 
 // Define document root
 define('DOCUMENT_ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 
-// Include necessary files
-require DOCUMENT_ROOT       . 'bootstrap' . DIRECTORY_SEPARATOR . 'constants.php';
-require BOOTSTRAP_FOLDER    . 'helpers.php';
-require BOOTSTRAP_FOLDER    . 'autoloader.php';
+// Include necessary
+require DOCUMENT_ROOT . 'bootstrap' . DIRECTORY_SEPARATOR . 'constants.php';
+require BOOTSTRAP_FOLDER . 'helpers.php';
+require BOOTSTRAP_FOLDER . 'autoloader.php';
 
 
 // Load the environment variables
 EnvManager::loadEnv(DOCUMENT_ROOT . '.env');
-
 
 // Set up application
 $routes     = getJSONFromFile(APP_ROOT . 'routes.json');
@@ -28,6 +29,30 @@ $router     = new Router();
 $request    = new Request($_SERVER);
 $config     = new Config($_ENV);
 
+$logger     = new Logger();
+
+
 // Run the application
-echo (new App($router, $config))
-    ->run($routes, $request);
+try {
+    $response = (new App($router, $config))
+        ->run($routes, $request);
+
+    echo $response;
+} catch (\Throwable $e) {
+
+    // ob_start();
+    prettyPrint($e);
+    // $error = ob_get_clean();
+    
+    // Log the error for now
+    // file_put_contents(
+    //     LOGS_DIR . 'error.log',
+    //     $error
+    // );
+
+    // prettyPrint($e);
+
+    $response = ErrorController::internalError();
+
+    // echo $response;
+}

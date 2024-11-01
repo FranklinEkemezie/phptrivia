@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Controllers\ErrorController;
 use App\Utils\Request;
 
 class Router
@@ -45,8 +46,9 @@ class Router
         return "@^$routeRegex$@";
     }
 
-    public function route(Request $request): ?callable
+    public function route(Request $request): callable
     {
+
         foreach($this->routes as $route => $routeMethods) {
             foreach($routeMethods as $method => $routeInfo) {
                 if (preg_match(
@@ -58,7 +60,7 @@ class Router
                     $controller = $controllerNamespace . $routeInfo['controller'] . 'Controller';
                     $method = $routeInfo['handler'] ?? 'index';
 
-                    $controllerInstance = new $controller();
+                    $controllerInstance = new $controller($request);
 
                     return function() use ($controllerInstance, $method){
                         return call_user_func_array([$controllerInstance, $method], []);
@@ -68,6 +70,6 @@ class Router
             
         }
 
-        return null;
+        return [ErrorController::class, 'notFound'];
     }
 }

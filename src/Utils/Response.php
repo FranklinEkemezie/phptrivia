@@ -4,17 +4,39 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use App\Views\View;
+
 class Response
 {
 
-    private string $statusLine;
-    private int $statusCode;
-    private Header $header;
-    private ?string $body;
+    
 
-
-    public function __tostring()
+    public function __construct(
+        private int $statusCode,
+        private string|View $body,
+        private ?Header $header=null
+    )
     {
-        return '';
+        if ($header === null) {
+            $this->header = new Header();
+        }
+
     }
+
+    public function send(): string
+    {
+        http_response_code($this->statusCode);
+
+        // Send headers
+        $this->header->send();
+
+        // Return the response
+        return (string) $this->body;
+    }
+
+    public function __toString()
+    {
+        return $this->send();
+    }
+
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 function prettyPrint(mixed $value): void {
     echo '<pre>';
     var_dump($value);
-    echo '<pre>';
+    echo '</pre>';
 }
 
 function getJSONFromFile(string $jsonFile): mixed {
