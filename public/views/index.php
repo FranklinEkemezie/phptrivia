@@ -49,7 +49,7 @@
         <!-- Signup  -->
         <section>
             <!-- Login Modal -->
-            {{ component:login-modal }}
+            {{ component:signup-modal }}
         </section>
 
         <!-- Features Section -->

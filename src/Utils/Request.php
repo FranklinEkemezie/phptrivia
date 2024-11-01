@@ -16,25 +16,24 @@ class Request
     private string $path;
     private string $httpVersion;
     private Header $header;
+    private array $POST;
+    private array $GET;
 
     public const REQUEST_METHODS = ['GET', 'POST'];
     
-    public function __construct(array $serverVariables)
+    public function __construct()
     {
-        $this->method       = strtoupper($serverVariables['REQUEST_METHOD'] ?? 'GET');
-        $this->path         = $serverVariables['REQUEST_URI'];
-        $this->httpVersion  = $serverVariables['SERVER_PROTOCOL'];
-    }
+        $this->method       = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
+        $this->path         = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $this->httpVersion  = $_SERVER['SERVER_PROTOCOL'];
 
-    public function POST(): array
-    {
+        $this->POST = array_map(function($input) {
+            return FormValidator::sanitiseData($input);
+        }, $_POST);
+        $this->GET = array_map(function($input) {
+            return FormValidator::sanitiseData($input);
+        }, $_GET);
 
-        return [];
-    }
-
-    public function GET(): array
-    {
-        return [];
     }
 
 

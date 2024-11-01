@@ -26,7 +26,7 @@ EnvManager::loadEnv(DOCUMENT_ROOT . '.env');
 $routes     = getJSONFromFile(APP_ROOT . 'routes.json');
 
 $router     = new Router();
-$request    = new Request($_SERVER);
+$request    = new Request();
 $config     = new Config($_ENV);
 
 $logger     = new Logger();

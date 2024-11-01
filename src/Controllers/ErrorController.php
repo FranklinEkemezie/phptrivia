@@ -12,6 +12,7 @@ class ErrorController
     
     public static function notFound(): Response
     {
+        echo $_SERVER['REQUEST_URI'];
         return new Response(
             404,
             (new View('error/404'))

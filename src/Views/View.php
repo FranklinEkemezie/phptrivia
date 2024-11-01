@@ -72,18 +72,17 @@ class View
             } else if ($component = $this->components['include'][$includeComponentName] ?? null) {
                 $includeComponent = (new Component($component['path']))
                     ->setPlaceholderValues($component['placeholderValues']);
-            } else
-                continue;
+            }
 
             // Update the view with the component
             $viewContent = preg_replace(
                 "/\{\{ *component:$includeComponentName *\}\}/",
-                (string) $includeComponent,
+                (string) $includeComponent ?? "",
                 $viewContent
             );
 
             // Replace the placeholders here for the component
-            $viewContent = $includeComponent->renderVariables($viewContent);
+            $viewContent = $includeComponent?->renderVariables($viewContent) ?? $viewContent;
         }
 
         return $viewContent;

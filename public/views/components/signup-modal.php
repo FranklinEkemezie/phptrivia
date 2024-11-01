@@ -18,7 +18,7 @@
             <div class="modal-body">
                 <!-- Login Form -->
                 <div class="container-fluid">
-                    <form action="/login" method="post">
+                    <form action="/signup" method="post">
                         <!-- Username -->
                         <div class="my-2 mb-3">
                             <label for="username-id" class="form-label"><i class="bi bi-person"></i> Username</label><br>
@@ -39,9 +39,9 @@
                             <label for="experience-level-id" class="form-label"><i class="bi bi-book"></i> Experience Level</label>
                             <select name="{{ experience_level_field }}" id="experience-level-id" class="form-select">
                                 <option value="" disabled selected>Select your PHP experience</option>
-                                <option value="beginner">Beginner</option>
-                                <option value="intermediate">Intermediate</option>
-                                <option value="advanced">Advanced</option>
+                                <option value="1">Beginner</option>
+                                <option value="2">Intermediate</option>
+                                <option value="3">Advanced</option>
                             </select>
                         </div>
 

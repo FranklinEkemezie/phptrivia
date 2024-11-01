@@ -51,6 +51,10 @@ class Router
 
         foreach($this->routes as $route => $routeMethods) {
             foreach($routeMethods as $method => $routeInfo) {
+                // Check if the current method of iteration is the request method
+                if (strtoupper($method) !== strtoupper($request->method))
+                    continue;
+
                 if (preg_match(
                     self::getRouteRegex($route, $routeInfo), 
                     $request->path)
