@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core;
 
 use App\Controllers\ErrorController;
+use App\Utils\Config;
 use App\Utils\Request;
 
 class Router
@@ -46,7 +47,7 @@ class Router
         return "@^$routeRegex$@";
     }
 
-    public function route(Request $request): callable
+    public function route(Request $request, Config $config): callable
     {
 
         foreach($this->routes as $route => $routeMethods) {
@@ -64,7 +65,7 @@ class Router
                     $controller = $controllerNamespace . $routeInfo['controller'] . 'Controller';
                     $method = $routeInfo['handler'] ?? 'index';
 
-                    $controllerInstance = new $controller($request);
+                    $controllerInstance = new $controller($request, $config);
 
                     return function() use ($controllerInstance, $method){
                         return call_user_func_array([$controllerInstance, $method], []);

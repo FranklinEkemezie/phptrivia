@@ -39,7 +39,7 @@ abstract class FormValidator
         ];
     }
 
-    public static function validateUsername(string $username): array
+    public static function validateUsername(string &$username): array
     {
         $username = self::sanitiseData($username);
         $validationType = 'username';
@@ -51,7 +51,7 @@ abstract class FormValidator
             );
         }
 
-        if (! strlen($username) <= 20) {
+        if (! (strlen($username) <= 20)) {
             return self::getValidationErrorInfo(
                 $validationType,
                 'Username is too long'
@@ -61,7 +61,7 @@ abstract class FormValidator
         return self::getValidationSuccessInfo($validationType);
     }
 
-    public static function validateEmail(string $email): array
+    public static function validateEmail(string &$email): array
     {
         if (! ($email = filter_var($email, FILTER_SANITIZE_EMAIL))) {
             return self::getValidationErrorInfo('email', 'Invalid email address');
@@ -70,7 +70,7 @@ abstract class FormValidator
         return self::getValidationSuccessInfo('email');
     }
 
-    public static function validateExperienceLevel(int $experienceLevel): array
+    public static function validateExperienceLevel(int &$experienceLevel): array
     {
         if ($experienceLevel < 1|| $experienceLevel > 3) {
             return self::getValidationErrorInfo('experience-level', 'Invalid experience level');

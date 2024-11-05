@@ -28,7 +28,6 @@ $routes     = getJSONFromFile(APP_ROOT . 'routes.json');
 $router     = new Router();
 $request    = new Request();
 $config     = new Config($_ENV);
-
 $logger     = new Logger();
 
 
@@ -40,19 +39,15 @@ try {
     echo $response;
 } catch (\Throwable $e) {
 
-    // ob_start();
-    prettyPrint($e);
-    // $error = ob_get_clean();
+    $error = <<<LOG
+    Message:    {$e->getMessage()}
+    Code:       {$e->getCode()}
+    File:       {$e->getFile()}:{$e->getLine()}
+    Trace:      {$e->getTraceAsString()}
+    LOG;
     
     // Log the error for now
-    // file_put_contents(
-    //     LOGS_DIR . 'error.log',
-    //     $error
-    // );
+    file_put_contents(LOGS_DIR . 'error.log',$error);
 
-    // prettyPrint($e);
-
-    $response = ErrorController::internalError();
-
-    // echo $response;
+    echo ErrorController::internalError();
 }

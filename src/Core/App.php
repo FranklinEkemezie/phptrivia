@@ -26,10 +26,12 @@ class App
     {
         // Get the Controller method handler for the request
         $routeHandler = $this->router->register($routes)
-            ->route($request);
+            ->route($request, $this->config);
 
         try {
             return $routeHandler();
+        } catch(\App\Exceptions\DBException $e) {
+            throw new \App\Exceptions\DBException($e->getMessage(), (int) $e->getCode());
         } catch (\Exception $e) {
             throw new ControllerException($e->getMessage(), (int) $e->getCode());
         }
