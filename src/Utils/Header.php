@@ -35,6 +35,13 @@ class Header
         return $this;
     }
 
+    public function setHeaders(array $headers): self
+    {
+        $this->headers = array_merge($this->headers, $headers);
+
+        return $this;
+    }
+
     public function disableCaching(): self
     {
         $this->headers['Cache-Control'] = self::CACHE_CONTROL_NO_CACHE;
