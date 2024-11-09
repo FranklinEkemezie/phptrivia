@@ -24,6 +24,21 @@ class Session
         $_SESSION[$key] = $value;
     }
 
+    public static function update(string $key, array $value, bool $initialiseIfEmpty=false)
+    {
+        if (! is_array($_SESSION[$key] ?? null)) {
+            if ($initialiseIfEmpty)
+                static::set($key, []);
+            else
+                throw new \Exception("Session with key: '$key' does not exist or not an array");
+        }
+
+        static::set(
+            $key,
+            array_merge($_SESSION[$key], $value)
+        );
+    }
+
     public static function has(string $key): bool
     {
         return isset($_SESSION[$key]);

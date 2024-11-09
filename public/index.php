@@ -9,6 +9,7 @@ use App\Utils\Config;
 use App\Utils\EnvManager;
 use App\Utils\Logger;
 use App\Utils\Request;
+use App\Utils\Session;
 
 // Define document root
 define('DOCUMENT_ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR);
@@ -18,6 +19,8 @@ require DOCUMENT_ROOT . 'bootstrap' . DIRECTORY_SEPARATOR . 'constants.php';
 require BOOTSTRAP_FOLDER . 'helpers.php';
 require BOOTSTRAP_FOLDER . 'autoloader.php';
 
+// Start session
+Session::init();
 
 // Load the environment variables
 EnvManager::loadEnv(DOCUMENT_ROOT . '.env');
@@ -30,13 +33,14 @@ $request    = new Request();
 $config     = new Config($_ENV);
 $logger     = new Logger();
 
-
 // Run the application
 try {
     $response = (new App($router, $config))
         ->run($routes, $request);
 
     echo $response;
+
+    // prettyPrint($response->getResponseBody());
 } catch (\Throwable $e) {
 
     $error = <<<LOG

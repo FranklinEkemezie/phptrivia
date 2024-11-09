@@ -10,7 +10,7 @@ class UserModel extends BaseModel
 {
 
 
-    public function register(User $user): int
+    public function register(User $user): int|null|false
     {
         
         return $this->db->insert('users', [

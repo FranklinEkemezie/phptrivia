@@ -21,6 +21,9 @@
     <!-- Custom styles -->
     <link rel="stylesheet" href="../../assets/css/main.css" />
 
+    <!-- Custom Javascript -->
+    <script src="../../assets/js/main.js" defer></script>
+
 </head>
 <body>
     <!-- HEADER -->
@@ -29,7 +32,10 @@
     <!-- MAIN -->
     <main>
 
-    <!-- Hero section -->
+        <!-- Flash Messages -->
+        
+
+        <!-- Hero section -->
         <section class="py-5 my-3">
             <div class="container-fluid text-center mt-5">
                 <h2 class="display-4 fw-bold">Welcome to <span class="text-secondary">PHPTrivia</span></h2>
@@ -56,6 +62,8 @@
         <section class="py-5 my-5">
             <div class="container text-center">
                 <h2 class="display-5 fw-bold my-4">Features</h2>
+
+                <p class="lead">{{ hello }}</p>
 
                 <div class="row">
                     <div class="col-md-6">
@@ -100,5 +108,44 @@
 
     <!-- FOOTER -->
     {{ component:footer }}
+
+
+    <aside>
+                <!-- Flash Message -->
+                <div class="toast-container position-fixed top-0 start-50 translate-middle-x mt-3">
+            <div class="toast flash-message align-items-center bg-success text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex align-items-center px-3">
+                    <i class="fas fa-user-check"></i>
+                    <div class="toast-body">
+                        Account creation successful!
+                    </div>
+                    <button type="button" class="btn p-0 text-white ms-auto" data-bs-dismiss="toast" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="toast flash-message align-items-center bg-danger text-white border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex align-items-center px-3">
+                    <i class="fas fa-user-times"></i>
+                    <div class="toast-body">
+                        Something went wrong
+                    </div>
+                    <button type="button" class="btn p-0 text-white ms-auto" data-bs-dismiss="toast" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Load all flash message
+            const flashMessageEls = document.querySelectorAll(".flash-message");
+            flashMessageEls.forEach(el => {
+                (bootstrap.Toast.getOrCreateInstance(el))
+                    .show();
+            })
+        </script>
+    </aside>
 </body>
 </html>

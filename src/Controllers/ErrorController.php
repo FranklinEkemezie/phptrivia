@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Utils\Response;
+use App\Views\Component;
 use App\Views\View;
 
 class ErrorController
@@ -12,13 +13,13 @@ class ErrorController
     
     public static function notFound(): Response
     {
-        echo $_SERVER['REQUEST_URI'];
         return new Response(
             404,
             (new View('error/404'))
-                ->useComponent('header')
-                ->useComponent('footer')
-    );
+                ->useComponent(new Component('header'))
+                ->useComponent(new Component('footer'))
+
+        );
     }
 
     public static function internalError(): Response
@@ -26,8 +27,8 @@ class ErrorController
         return new Response(
             500,
             (new View('error/500'))
-                ->useComponent('header')
-                ->useComponent('footer')
+                ->useComponent(new Component('header'))
+                ->useComponent(new Component('footer'))
         );
     }
 }

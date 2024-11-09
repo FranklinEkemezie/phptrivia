@@ -6,7 +6,9 @@ namespace App\Controllers;
 
 use App\Entities\User;
 use App\Models\UserModel;
+use App\Utils\FlashMessage;
 use App\Utils\FormValidator;
+use App\Utils\MessageFlasher;
 use App\Utils\Redirector;
 use App\Utils\Response;
 
@@ -20,6 +22,8 @@ class AuthController extends BaseController
         prettyPrint($this->request->GET);
         echo $this->request->method, '<br/>';
         echo $this->request->path, '<br/>';
+
+        echo MessageFlasher::flash('login', $this->request->path) ?? "Route not allowed for flashing";
 
         return new Response(200, "");
     }
@@ -43,7 +47,7 @@ class AuthController extends BaseController
         echo $this->request->method, '<br/>';
         echo $this->request->path, '<br/>';
 
-        
+        MessageFlasher::register('login', 'Registration successful');
 
         (new Redirector())('/login');
         
@@ -77,7 +81,17 @@ class AuthController extends BaseController
 
         // Initiate a User Model to handle the signup
         $userModel = new UserModel($this->config->db);
-        $userID = $userModel->register($user);
+
+        if (($userID = $userModel->register($user)) !== false) {
+
+            // Flash message
+            FlashMessage::flash('registration-success', 'Registration successful!', '/');
+
+            // Redirect to the home page
+            Redirector::redirect('/');
+        }
+
+        // Login user in: Redirect to login
 
 
         return new Response(200, "Registration Successful! <br/> User ID: $userID");

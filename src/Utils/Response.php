@@ -9,12 +9,10 @@ use App\Views\View;
 class Response
 {
 
-    
-
     public function __construct(
-        private int $statusCode,
-        private string|View $body,
-        private ?Header $header=null
+        private int             $statusCode,
+        private string|View     $body,
+        private ?Header         $header=null
     )
     {
         if ($header === null) {
@@ -32,6 +30,16 @@ class Response
 
         // Return the response
         return (string) $this->body;
+    }
+
+    public function getResponseBody(): string|View
+    {
+        return $this->body;
+    }
+
+    public function getResponseStatusCode(): int
+    {
+        return $this->statusCode;
     }
 
     public function __toString()

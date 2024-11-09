@@ -14,6 +14,11 @@ class Database
     // Database tables to prevent going to the database each
     public array $tables;
 
+
+    // Error codes
+    public const ERROR_DUPLICATE_ENTRY = 23000;
+
+
     public function __construct(array $dbConfig)
     {
         self::setUpDBConn($dbConfig);
@@ -68,12 +73,13 @@ class Database
      * @param string $table The table
      * @param array $data The column-value pair of data to insert
      * @throws \App\Exceptions\DBException
-     * @return ?int Returns the unique ID of the inserted row if available, else NULL
+     * @return ?int Returns the unique ID of the inserted row if available, else NULL.
+     * Returns FALSE if the user has been registered before.
      */
     public function insert(
         string $table,
         array $data
-    ): ?int
+    ): int|null|false
     {
         if (! in_array($table, $this->tables))
         {
@@ -93,6 +99,10 @@ class Database
                 throw new DBException("Something went wrong!");
             }
         } catch(\PDOException $e) {
+            //  Duplicate entry issue
+            if ((int) $e->getCode() === self::ERROR_DUPLICATE_ENTRY)
+                return false;
+
             throw new DBException($e->getMessage(), (int) $e->getCode());
         }
 
