@@ -12,14 +12,6 @@ class Component extends View {
 
     protected const INCLUDE_DIR = COMPONENTS_FOLDER;
 
-    public function __construct(
-        string $relativeViewPath,
-        private ?string $name = null
-    )
-    {
-        $this->name ??= $relativeViewPath;
-        parent::__construct($relativeViewPath);
-    }
 
     public function __get(string $name): mixed
     {
