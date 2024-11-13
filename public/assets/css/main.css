@@ -73,4 +73,8 @@ a:hover {
     border-color: var(--phptrivia-secondary);
 }
 
+/* Toasts */
+.toast.bg-primary {
+    background-color: var(--phptrivia-primary) !important;
+}
 

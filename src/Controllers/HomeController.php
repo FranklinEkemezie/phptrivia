@@ -16,20 +16,11 @@ class HomeController extends BaseController
     public function index(): Response
     {
         // Flash a welcome message
-        FlashMessage::flash('welcome', 'Welcome to PHPTrivia! - HomeController', '/');
+        FlashMessage::flash(new FlashMessage('welcome', 'Welcome to PHPTrivia!', '/'));
 
-        return new Response(
-            200,
-            (new View(
-                'index_',
-                'index',
-                new Layout('layout', placeholderValues: ['title' => 'Welcome']),
-                ['hello' => 'Hello, world!'],
-            ))->useComponent(new Component('signup-modal', placeholderValues: [
-                'username_field' => 'username',
-                'email_field' => 'email',
-                'experience_level_field' => 'experience_level'
-            ]))
+        return new Response(200, 
+            (new View('index', layout: new Layout('layout', placeholderValues: ['title' => 'Welcome'])))
+                ->useComponent(new Component('signup-modal'))
         );
     }
 }

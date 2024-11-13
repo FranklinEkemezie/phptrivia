@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Views;
+namespace App\Views\FlashMessages;
 
-class FlashMessageComponent extends Component
+use App\Views\Component;
+
+class FlashContainer extends Component
 {
-    
     protected const INCLUDE_DIR = COMPONENTS_FOLDER . 'flash_messages' . DIRECTORY_SEPARATOR;
+
+
 }

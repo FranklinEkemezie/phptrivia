@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Utils;
 
+use App\Utils\Session;
+
 /**
  * Flash messages between routes
  * 
@@ -11,33 +13,31 @@ namespace App\Utils;
 class FlashMessage
 {
 
+    public const SESSION_NAME = 'flash_messages';
 
-    private function __construct()
+    public function __construct(
+        private string $name,
+        private string $message,
+        private string|array $routes,
+        private string $template='message'
+    )
     {
         
     }
 
     /**
      * Flash a message across one or more routes
-     * @param string $name The name to identify the flash message
-     * @param string $message The message to flash
-     * @param string|array $routes The route(s) in which to flash the message
-     * @param bool $destroyOnFlash Specify whether to destroy the flash message 
-     * when flashed across a particular route
+     * @param FlashMessage $flashMessage
      * @return void
      */
-    public static function flash(
-        string $name,
-        string $message,
-        string|array $routes
-    ): void
+    public static function flash(FlashMessage $flashMessage): void
     {
         // Store in session
-        Session::update('flash_messages', [$name => [
-            'name' => $name,
-            'message' => $message,
-            'routes' => $routes
-        ]], true);
+        Session::update(
+            self::SESSION_NAME,
+            [$flashMessage->name => $flashMessage]
+        );
+
     }
 
     /**
@@ -45,30 +45,54 @@ class FlashMessage
      * @param string $route
      * @param bool $destroyOnFlash Specify whether to destroy the flash message 
      * when flashed across a particular route
-     * @return ?array
+     * @return FlashMessage[]
      */
     public static function getFlashMessages(
-        string $route,
-        bool $destroyOnFlash=false
+        string $route
     ): ?array
     {
-        return array_filter(Session::get('flash_messages'), function($message) use ($route) {
-            return is_array($routes = $message['routes']) ?
-                in_array($route, $routes) :
-                $routes === '*' || $routes === $route
-            ;
-        });
+
+        /**
+         * @var FlashMessage[] $flashMessagesPrev
+         */
+        $flashMessagesPrev = Session::get(self::SESSION_NAME);
+        $flashMessagesNext = [];
+        $flashMessages = [];
+
+        foreach($flashMessagesPrev as $name => $message) {
+            if (static::shouldFlash($message, $route))
+                $flashMessages[$name] = $message;
+            else
+                $flashMessagesNext[$name] = $message;
+        }
+
+        // Update session
+        Session::set(self::SESSION_NAME, $flashMessagesNext);
+
+        return $flashMessages;
     }
 
-    public static function getFlashMessage(
-        string $name,
-        string $route,
-        bool $destroyOnFlash=false
-    ): ?string
+    public static function shouldFlash(FlashMessage $flashMessage, string $route): bool
+    {
+        return is_array($routes = $flashMessage->routes) ?
+            in_array($route, $routes) :
+            ($routes === '*' || $routes === $route)
+        ;
+    }
+
+    public static function getFlashMessage(string $name, string $route): ?string
     {
         return (static::getFlashMessages(
-            $route,
-            $destroyOnFlash
-        ))[$name]['message'] ?? null;
+            $route
+        ))[$name]->message ?? null;
+    }
+
+    public function __get(string $name): mixed
+    {
+        if (! property_exists($this, $name)) {
+            throw new \Exception('Cannot access non-existing property ' . __CLASS__ . '::$' . $name);
+        }
+
+        return $this->$name;
     }
 }

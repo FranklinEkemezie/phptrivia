@@ -72,7 +72,7 @@ class View
         foreach($includeComponentsName as $includeComponentName) {
             $includeComponent = $this->components[$includeComponentName] ?? null;
             if(is_null($includeComponent)) {
-                throw new ViewException("View component: $includeComponentName not found");
+                throw new ViewException("View component: $includeComponentName not found when rendering " . static::class . " '{$this->name}'");
             }
 
             // Update the view with the component
@@ -168,7 +168,7 @@ class View
         // Lastly, render the actual view content
         $layoutContent = preg_replace(
             "/\{\{ *\&view *\}\}/",
-            (string) $this->renderViewContent(),
+            $this->renderViewContent(),
             $layoutContent
         );
         

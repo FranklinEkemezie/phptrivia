@@ -24,20 +24,20 @@
                             <label for="username-id" class="form-label"><i class="bi bi-person"></i> Username</label><br>
                             <div class="input-group">
                                 <span class="input-group-text">@</span>
-                                <input type="text" name="{{ username_field }}" id="username-id" class="form-control" placeholder="your_username" required />
+                                <input type="text" name="username" id="username-id" class="form-control" placeholder="your_username" required />
                             </div>
                         </div>
 
                         <!-- Email -->
                         <div class="my-2 mb-3">
                             <label for="email-id" class="form-label"><i class="bi bi-envelope"></i> Email</label>
-                            <input type="email" name="{{ email_field }}" id="email-id" class="form-control" placeholder="you@example.com" required />
+                            <input type="email" name="email" id="email-id" class="form-control" placeholder="you@example.com" required />
                         </div>
 
                         <!-- Experience Level -->
                         <div class="my-2 mb-3">
                             <label for="experience-level-id" class="form-label"><i class="bi bi-book"></i> Experience Level</label>
-                            <select name="{{ experience_level_field }}" id="experience-level-id" class="form-select">
+                            <select name="experience_level" id="experience-level-id" class="form-select">
                                 <option value="" disabled selected>Select your PHP experience</option>
                                 <option value="1">Beginner</option>
                                 <option value="2">Intermediate</option>

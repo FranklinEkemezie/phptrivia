@@ -8,7 +8,8 @@
     "/login": {
         "GET": {
             "controller": "Auth",
-            "handler": "displayLogin"
+            "handler": "displayLogin",
+            "auth": [false, "/leaderboard"]
         },
         "POST": {
             "controller": "Auth",
@@ -22,7 +23,8 @@
         },
         "POST": {
             "controller": "Auth",
-            "handler": "signup"
+            "handler": "signup",
+            "auth": [false, "/leaderboard"]
         }
     },
     "/quiz/:quizId": {
@@ -32,6 +34,13 @@
             "params": {
                 "quizId": "string"
             }
+        }
+    },
+    "/leaderboard": {
+        "GET": {
+            "controller": "Quiz",
+            "handler": "getLeaderboard",
+            "auth": [true, "/login"]
         }
     }
 }
