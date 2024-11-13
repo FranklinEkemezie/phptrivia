@@ -109,7 +109,7 @@ abstract class FormValidator
     {
         $experienceLevel = (int) $experienceLevel;
         if ($experienceLevel < 1|| $experienceLevel > 3) {
-            return self::getValidationErrorInfo('experience-level', 'Invalid experience level');
+            return self::getValidationErrorInfo('experience-level', 'Invalid experience level' . $experienceLevel);
         }
 
         return self::getValidationSuccessInfo('experience-level');
@@ -134,10 +134,9 @@ abstract class FormValidator
         ;
     }
 
-    public static function validateAll(array $formData): array
+    public static function validateAll(array $formData, bool $verbose=false): array
     {
         $result = [];
-
         foreach ($formData as $field => $value) {
             $result[$field] = call_user_func_array(
                 [self::class, self::FORM_FIELDS[$field]], 
@@ -145,6 +144,15 @@ abstract class FormValidator
             );
         }
 
-        return $result;
+        return $verbose ? $result :
+            array_map(
+                fn($field)=> $field['message'],
+                array_filter(
+                    $result,
+                    fn($field) => $field['error'],
+                    ARRAY_FILTER_USE_BOTH
+                )
+            )
+        ;
     }
 }

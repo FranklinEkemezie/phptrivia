@@ -10,17 +10,10 @@
             <img src="../assets/imgs/php_elephant.png" alt="" width="120" class="img-fluid" />
         </div>
         <div class="mt-3">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginBackdrop">Start Quiz</button>
-            <button type="button" class="btn btn-outline-primary">Continue Quiz</button>
+            <a href="/signup" class="btn btn-primary">Start Quiz</a>
+            <a href="/login" class="btn btn-outline-primary">Continue Quiz</a>
         </div>
     </div>
-</section>
-
-
-<!-- Signup  -->
-<section>
-    <!-- Login Modal -->
-    {{ component:signup-modal }}
 </section>
 
 <!-- Features Section -->

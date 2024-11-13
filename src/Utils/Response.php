@@ -25,27 +25,27 @@ class Response
 
     }
 
+    private function getFlashContainer(): FlashContainer
+    {
+        return new FlashContainer('container', 'flash-message', null, [
+            'messages' => implode(" ", array_map(
+                function (FlashMessage $flashMessage) {
+                    return FlashMessageComponent::createFromFlashMessage($flashMessage);
+            }, $this->flashMessages))
+        ]);
+    }
+
     public function send(): string
     {
         http_response_code($this->statusCode);
 
-        // Get the flash message container
-        $flashContainer = new FlashContainer('container', 'flash-message', null, [
-            'messages' => implode(" ", array_map(
-                function (FlashMessage $flashMessage) {
-                    return new FlashMessageComponent(
-                        $flashMessage->template,
-                        $flashMessage->name,
-                        null, 
-                        ['message' => $flashMessage->message]
-                    );
-            }, $this->flashMessages))
-        ]);
+        // Get the flash container
+        $flashContainer = $this->getFlashContainer();
 
-        if (($body = $this->body) instanceof View && !is_null($body->layout)) {
-            $this->body->useComponent($flashContainer);
+        if (($body = $this->body) instanceof View && ! is_null($body->layout)) {
+            $this->body->layout->useComponent($flashContainer);
         } else {
-            return $this->body . (string) $flashContainer;
+            $this->body .= (string) $flashContainer;
         }
 
         // Return the response

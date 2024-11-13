@@ -17,7 +17,8 @@ class UserModel extends BaseModel
             'uid'       => $user->uid,
             'username'  => $user->username,
             'email'     => $user->email,
-            'experience_level'=> $user->experienceLevel
+            'password'  => $user->password,
+            'experience_level' => $user->experienceLevel
         ]);
 
     }

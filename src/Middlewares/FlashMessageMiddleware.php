@@ -20,6 +20,7 @@ class FlashMessageMiddleware extends BaseMiddleware
 
     public function handle(Request $request): Response
     {
+
         return (clone $this->response)
             ->setFlashMessages(
                 // [
@@ -28,8 +29,7 @@ class FlashMessageMiddleware extends BaseMiddleware
                 //     new FlashMessage('x', 'Registration not successful', '/login', 'danger'),
                 //     new FlashMessage('x', 'Account created', '/login', 'success')
                 // ]
-                FlashMessage::getFlashMessages($request->path)
-            )
+                FlashMessage::getFlashMessages($request->path)            )
         ;
     }
 }

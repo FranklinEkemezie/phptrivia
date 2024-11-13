@@ -6,14 +6,14 @@
     <title>PHPTrivia - {{ title }}</title>
 
     <!-- Include CSS files -->
-    {{ @for:stylesheet=>stylesheets }}
+    <!-- {{ @for:stylesheet=>stylesheets }}
         <link rel="stylesheet" href="{{ stylesheet.href }}" />
-    {{ @endfor }}
+    {{ @endfor }} -->
 
     <!-- Include JavaScript files -->
-    {{ @for:script=>scripts }}
+    <!-- {{ @for:script=>scripts }}
         <script src="{{ script.src }}" defer></script>
-    {{ @endfor }}
+    {{ @endfor }} -->
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css" />
@@ -29,6 +29,18 @@
 
     <!-- Custom Javascript -->
     <script src="../../assets/js/main.js" defer></script>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1;
+        }
+
+
+    </style>
 
 </head>
 <body>

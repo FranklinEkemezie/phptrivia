@@ -12,11 +12,11 @@ class Redirector
 
     public static function redirect(string $destinationUrl)
     {
+
         (new Header())
-            ->setHeaders([
-                'location' => $destinationUrl
-            ])
-            ->send();
+            ->setHeaders(['location' => $destinationUrl])
+            ->send()
+        ;
 
         exit;
     }

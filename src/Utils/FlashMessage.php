@@ -35,7 +35,8 @@ class FlashMessage
         // Store in session
         Session::update(
             self::SESSION_NAME,
-            [$flashMessage->name => $flashMessage]
+            [$flashMessage->name => $flashMessage],
+            true
         );
 
     }

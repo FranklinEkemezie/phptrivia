@@ -89,18 +89,21 @@ class View
     protected function renderVariables(string $viewContent): string
     {
         // Match all the variable placeholders
-        preg_match_all("/\{\{ *([a-zA-Z_]+) *\}\}/", $viewContent, $placeholdersMatch);
-
-        $placeholders = $placeholdersMatch[1] ?? [];
-
+        preg_match_all("/\{\{ *(:?)([a-zA-Z-_]+) *\}\}/", $viewContent, $placeholdersMatch);
+        
         // Parse the placeholders and replace them
-        foreach($placeholders as $placeholder) {
+        foreach(($placeholdersMatch[2] ?? []) as $i => $placeholder) {
             // Update the view, replacing the variable placeholders with the values
             // given, and empty string if not provided
+
             $viewContent = preg_replace(
-                "/\{\{ *$placeholder *\}\}/",
+                "/\{\{ *(:?)$placeholder *\}\}/",
                 $this->placeholderValues[$placeholder] ?? 
-                    throw new ViewException("No value for placeholder {{ $placeholder }}"),
+                    // Check if it is optional
+                    (
+                        $placeholdersMatch[1][$i] === ":" ? "" :
+                        throw new ViewException("No value for placeholder {{ $placeholder }}")
+                    ),
                 $viewContent
             );
         }

@@ -8,7 +8,7 @@
     "/login": {
         "GET": {
             "controller": "Auth",
-            "handler": "displayLogin",
+            "handler": "getLogin",
             "auth": [false, "/leaderboard"]
         },
         "POST": {
@@ -19,7 +19,7 @@
     "/signup": {
         "GET": {
             "controller": "Auth",
-            "handler": "displaySignup"
+            "handler": "getSignup"
         },
         "POST": {
             "controller": "Auth",

@@ -18,7 +18,7 @@
             <div class="modal-body">
                 <!-- Login Form -->
                 <div class="container-fluid">
-                    <form action="/signup" method="post">
+                    <form action="/signup" method="post" id="signup-form">
                         <!-- Username -->
                         <div class="my-2 mb-3">
                             <label for="username-id" class="form-label"><i class="bi bi-person"></i> Username</label><br>
@@ -26,12 +26,26 @@
                                 <span class="input-group-text">@</span>
                                 <input type="text" name="username" id="username-id" class="form-control" placeholder="your_username" required />
                             </div>
+                            <span class="float-end small text-danger">{{ :username_error }}</span>
                         </div>
 
                         <!-- Email -->
                         <div class="my-2 mb-3">
                             <label for="email-id" class="form-label"><i class="bi bi-envelope"></i> Email</label>
                             <input type="email" name="email" id="email-id" class="form-control" placeholder="you@example.com" required />
+                            <span class="float-end small text-danger">{{ :email-error }}</span>
+                        </div>
+
+                        <div class="my-2 mb-3">
+                            <label for="password-id" class="form-label"><i class="fbi bi-lock"></i> Password</label>
+                            <input type="password" name="password" id="password-id" class="form-control" placeholder="Password" required />
+                            <span class="float-end small text-danger">{{ :password-error }}</span>
+                        </div>
+
+                        <div class="my-2 mb-3">
+                            <label for="password-confirm-id" class="form-label"><i class="bi bi-lock"></i> Confirm Password</label>
+                            <input type="password" name="password-confirm" id="password-confirm-id" class="form-control" placeholder="Confirm Password" required />
+                            <span class="float-end small text-danger">{{ :password-confirm-error }}</span>
                         </div>
 
                         <!-- Experience Level -->
@@ -62,3 +76,5 @@
         </div>
     </div>
 </div>
+
+<script src="../assets/js/signup-modal.js" defer></script>

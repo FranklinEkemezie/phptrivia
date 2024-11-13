@@ -33,6 +33,7 @@ $request    = new Request();
 $config     = new Config($_ENV);
 $logger     = new Logger();
 
+
 // Run the application
 try {
     $response = (new App($router, $config))
@@ -40,7 +41,6 @@ try {
 
     echo $response;
 
-    // prettyPrint($response->getResponseBody());
 } catch (\Throwable $e) {
 
     $error = <<<LOG
@@ -50,7 +50,7 @@ try {
     Trace:      {$e->getTraceAsString()}
     LOG;
     
-    // Log the error for now
+    // Log the error in a single file for now
     file_put_contents(LOGS_DIR . 'error.log',$error);
 
     echo ErrorController::internalError();
