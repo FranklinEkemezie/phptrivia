@@ -35,7 +35,12 @@ class Database
             dbname={$dbConfig['database']}
             DSN;
     
-            static::$dbInstance = new PDO($dsn, $dbConfig['user'], $dbConfig['password']);
+            $dbInstance = new PDO($dsn, $dbConfig['user'], $dbConfig['password']);
+            $dbInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $dbInstance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $dbInstance->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+            static::$dbInstance = $dbInstance;
         }
 
     }
@@ -62,9 +67,60 @@ class Database
         return (($conn->query($query))->fetchAll(PDO::FETCH_NUM))[0] ?? [];
     }
 
-    public function select(): array
+    private function tableExists(string $table, $throwError=false): bool
     {
-        return [];
+        $tableExists = in_array($table, $this->tables);
+
+        if ($throwError && ! $tableExists) 
+            throw new DBException("Table '$table' not found");
+
+        return $tableExists;
+    }
+
+    /**
+     * Select data from table
+     * @return array
+     */
+    public function select(
+        string $table,
+        array $data
+    ): ?array
+    {
+        $this->tableExists($table, true);
+
+        $conn = self::$dbInstance;
+
+        // Retrieve necessary data
+        $password = $data['password'] ?? null;  // Get the password if given
+        $data = array_filter($data, function($value, $field) {
+            return $field !== 'password';   // ignore the password
+        }, ARRAY_FILTER_USE_BOTH);
+        $conditions = join(", ", array_map(fn($v) => "$v = :$v", array_keys($data)));
+
+        $query = <<<SQL
+        SELECT uid, username, email, password, experience_level
+        FROM users
+        WHERE $conditions
+        SQL;
+
+        $stmt = $conn->prepare($query);
+        try {
+            if (! $stmt->execute($data)) {
+                throw new DBException("Something went wrong!");
+            }
+
+            // Get the user with the given details 
+            if (! ($userSelectInfo = $stmt->fetch())) {
+                return null;
+            }
+
+            // Verify if the password match
+            $isUser = password_verify($password, $userSelectInfo['password']);
+
+            return $isUser ? $userSelectInfo : null;
+        } catch(\PDOException $e) {
+            throw new DBException($e->getMessage(), (int) $e->getCode());
+        }
     }
 
     /**
@@ -81,10 +137,7 @@ class Database
         array $data
     ): int|null|false
     {
-        if (! in_array($table, $this->tables))
-        {
-            throw new DBException("Table $table not found");
-        }
+        $this->tableExists($table, true);
 
         $conn = self::$dbInstance;
 

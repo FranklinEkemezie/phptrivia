@@ -23,14 +23,20 @@ class User
         private string $email,
         string $password,
         int $experienceLevel,
+        bool $hashPassword=true
     )
     {
         if (! in_array($experienceLevel, [1, 2, 3])) {
             throw new \InvalidArgumentException("Invalid experience level");
         }
 
-        $this->password = password_hash($password, PASSWORD_BCRYPT);
+        $this->password = $hashPassword ? User::hashPassword($password) : $password;
         $this->experienceLevel = $experienceLevel;
+    }
+
+    private static function hashPassword(string $password): string
+    {
+        return password_hash($password, PASSWORD_BCRYPT);
     }
 
 
