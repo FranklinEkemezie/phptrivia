@@ -69,4 +69,9 @@ class UserModel extends BaseModel
             null
         ;
     }
+
+    public function getUserWithUID(string $uid): ?User
+    {
+        return $this->getUserWith(uid: $uid);
+    }
 }

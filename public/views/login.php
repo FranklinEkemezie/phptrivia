@@ -7,7 +7,7 @@
 
             </div>
 
-            <form action="/signup" method="post" id="login-form">
+            <form action="/login" method="post" id="login-form">
 
                 <!-- Username/Email -->
                 <div class="my-3">

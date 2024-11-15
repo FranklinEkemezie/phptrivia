@@ -114,10 +114,14 @@ class Database
                 return null;
             }
 
-            // Verify if the password match
-            $isUser = password_verify($password, $userSelectInfo['password']);
+            // Verify if the password match: if password is given
+            if ($password) {
+                $isUser = password_verify($password, $userSelectInfo['password']);
 
-            return $isUser ? $userSelectInfo : null;
+                return $isUser ? $userSelectInfo : null;
+            }
+
+            return $userSelectInfo;
         } catch(\PDOException $e) {
             throw new DBException($e->getMessage(), (int) $e->getCode());
         }

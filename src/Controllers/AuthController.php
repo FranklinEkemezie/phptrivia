@@ -11,52 +11,77 @@ use App\Utils\FormValidator;
 use App\Utils\Redirector;
 use App\Utils\RequestPortal;
 use App\Utils\Response;
+use App\Utils\Session;
 use App\Views\Layout;
 use App\Views\View;
 
 class AuthController extends BaseController
 {
 
+    /**
+     * Handles GET /login
+     * @return \App\Utils\Response
+     */
     public function getLogin(): Response
     {
 
-        return new Response(
-            200,
-            new View('login', null, 
-            new Layout('layout', placeholderValues: [
-                        'title' => 'Login'
-                    ]
-                )
-            )
-        );
+        return new Response(200, new View('login', null, new Layout(
+            'layout', placeholderValues: ['title' => 'login']
+        )));
+
     }
 
+    /**
+     * Handles POST /login
+     * @return \App\Utils\Response
+     */
     public function login(): Response
     {
-        echo 'Logging in...';
 
-        prettyPrint($this->request->POST);
-        echo $this->request->method, '<br/>';
-        echo $this->request->path, '<br/>';
+        $formData = $this->request->POST;
+        $username = $formData['username-email'];
+        $password = $formData['password'];
 
-        return new Response(200, "");
+        $user = (new UserModel($this->config->db))->getUserWith(
+            username: $username,
+            password: $password
+        );
+
+        if (! $user) {
+            FlashMessage::flash(new FlashMessage('login-failed', 'Incorrect username or password', '/login', 'danger'));
+
+            Redirector::redirect('/login');
+        }
+
+        // Store user data in session
+        Session::set('user_id', $user->uid);
+
+        // Go to the dashboard
+        Redirector::redirect('/dashboard');
+
+        exit;
     }
 
+    /**
+     * Handles GET /signup
+     * @return \App\Utils\Response
+     */
     public function getSignup(): Response
     {
 
         // Get the error info
         $signupErrorInfo = RequestPortal::catch('signup-error', $this->request->path) ?? [];
         $signupFormData  = RequestPortal::catch('signup-data', $this->request->path) ?? [];
-        
-        return new Response(200, 
-        (new View('signup', null, 
-            new Layout('layout', placeholderValues: [
-                'title' => 'Signup'
-            ]), array_merge($signupErrorInfo, $signupFormData)))
-        );
+
+        return new Response(200, (new View('signup', null, new Layout(
+            'layout', placeholderValues: ['title' => 'Signup']
+        ), array_merge($signupErrorInfo, $signupFormData))));
     }
 
+    /**
+     * Handles POST /signup
+     * @return \App\Utils\Response
+     */
     public function signup(): Response
     {
         // Get form data and perform validation
@@ -85,6 +110,7 @@ class AuthController extends BaseController
                 $signupError["$field-error"] = $message;
             }
 
+            // Throw the wrong data back to the user via portals
             RequestPortal::throw('signup-error', $signupError, '/signup');
             RequestPortal::throw('signup-data', [
                 'username'  => $formData['username'],

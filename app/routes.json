@@ -27,6 +27,13 @@
             "auth": [false, "/leaderboard"]
         }
     },
+    "/dashboard": {
+        "GET": {
+            "controller": "User",
+            "handler": "dashboard",
+            "auth": [true, "/login?r_url=/dashboard"]
+        }
+    },
     "/quiz/:quizId": {
         "GET": {
             "controller": "Quiz",
