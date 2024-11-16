@@ -36,6 +36,11 @@ class Request
 
     }
 
+    public function isAuth(): bool
+    {
+        return Session::has('user_id');
+    }
+
 
     public function __get(string $name): mixed
     {

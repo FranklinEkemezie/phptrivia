@@ -31,7 +31,6 @@ class App
             ->route($request, $this->config)
         ;
         
-
         // Hande authentication
         (new AuthMiddleware($routes))->handle($request);
 

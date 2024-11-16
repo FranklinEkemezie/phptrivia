@@ -152,5 +152,19 @@ class AuthController extends BaseController
         exit;
     }
 
+    /**
+     * Handles GET /login
+     * @return \App\Utils\Response
+     */
+    public function logout(): void
+    {
+
+        // Clear the session
+        Session::remove('user_id');
+
+        Redirector::redirect('/login');
+
+    }
+
 
 }
