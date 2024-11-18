@@ -112,7 +112,7 @@ class View
 
             $viewContent = preg_replace(
                 "/\{\{ *(:?)$placeholder *\}\}/",
-                $this->placeholderValues[$placeholder] ?? 
+                (string) $this->placeholderValues[$placeholder] ?? 
                     // Check if it is optional
                     (
                         $placeholdersMatch[1][$i] === ":" ? "" :

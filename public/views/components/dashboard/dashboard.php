@@ -12,6 +12,7 @@
         <div>
 
             <div class="row">
+                
                 <!-- Total quizzes completed -->
                 <div class="col-md-6">
                     <div class="p-2 ps-md-4 pb-md-4">

@@ -45,7 +45,12 @@ class UserController extends BaseController
                 'main-layout', placeholderValues: ['title' => 'Dashboard']
             )
         ))->useComponent(
-            new Component('dashboard/profile', 'main-content', placeholderValues: ['username' => $user->username])
+            new Component('dashboard/profile', 'main-content',
+            placeholderValues: [
+                'username'  => $user->username,
+                'email'     => $user->email,
+                'experience-level'=>$user->experienceLevel
+            ])
         ));
 
     }
