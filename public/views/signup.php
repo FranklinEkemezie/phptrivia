@@ -1,7 +1,7 @@
 <!-- Signup Form -->
 <main>
-<section class="px-2">
-        <div class="container my-3 py-2 border rounded-2 shadow-sm" style="max-width: 400px;">
+    <section class="px-2">
+        <div class="container my-4 py-2 border rounded-2 shadow-sm" style="max-width: 400px;">
             <div class="text-center my-3">
                 <h2 class="fw-bold text-primary">Register</h2>
 

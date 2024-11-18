@@ -20,12 +20,12 @@
         "GET": {
             "controller": "Auth",
             "handler": "getSignup",
-            "auth": [false, "/leaderboard"]
+            "auth": [false, "/dashboard"]
         },
         "POST": {
             "controller": "Auth",
             "handler": "signup",
-            "auth": [false, "/leaderboard"]
+            "auth": [false, "/dashboard"]
         }
     },
     "/logout": {
@@ -39,7 +39,21 @@
         "GET": {
             "controller": "User",
             "handler": "dashboard",
-            "auth": [true, "/login?r_url=/dashboard"]
+            "auth": [true, "/login"]
+        }
+    },
+    "/dashboard/profile": {
+        "GET": {
+            "controller": "User",
+            "handler": "profile",
+            "auth": [true, "/login"]
+        }
+    },
+    "/dashboard/leaderboard": {
+        "GET": {
+            "controller": "Quiz",
+            "handler": "getLeaderboard",
+            "auth": [true, "/login"]
         }
     },
     "/quiz/:quizId": {
@@ -49,13 +63,6 @@
             "params": {
                 "quizId": "string"
             }
-        }
-    },
-    "/leaderboard": {
-        "GET": {
-            "controller": "Quiz",
-            "handler": "getLeaderboard",
-            "auth": [true, "/login"]
         }
     }
 }

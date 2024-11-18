@@ -25,17 +25,20 @@ class AuthController extends BaseController
     public function getLogin(): Response
     {
 
+        // Login form data in the case of failure
+        $username = RequestPortal::catch('login-data', $this->request->path)['username'] ?? '';
+
         return new Response(200, new View('login', null, new Layout(
-            'layout', placeholderValues: ['title' => 'login']
-        )));
+            'main-layout', placeholderValues: ['title' => 'login']
+        ), ['username' => $username]));
 
     }
 
     /**
      * Handles POST /login
-     * @return \App\Utils\Response
+     * @return void
      */
-    public function login(): Response
+    public function login(): void
     {
 
         $formData = $this->request->POST;
@@ -50,6 +53,11 @@ class AuthController extends BaseController
         if (! $user) {
             FlashMessage::flash(new FlashMessage('login-failed', 'Incorrect username or password', '/login', 'danger'));
 
+            // Throw the wrong info to the portal
+            RequestPortal::throw('login-data', [
+                'username' => $username
+            ], '/login');
+
             Redirector::redirect('/login');
         }
 
@@ -58,8 +66,6 @@ class AuthController extends BaseController
 
         // Go to the dashboard
         Redirector::redirect('/dashboard');
-
-        exit;
     }
 
     /**
@@ -74,15 +80,15 @@ class AuthController extends BaseController
         $signupFormData  = RequestPortal::catch('signup-data', $this->request->path) ?? [];
 
         return new Response(200, (new View('signup', null, new Layout(
-            'layout', placeholderValues: ['title' => 'Signup']
+            'main-layout', placeholderValues: ['title' => 'Signup']
         ), array_merge($signupErrorInfo, $signupFormData))));
     }
 
     /**
      * Handles POST /signup
-     * @return \App\Utils\Response
+     * @return void
      */
-    public function signup(): Response
+    public function signup(): void
     {
         // Get form data and perform validation
         $formData = $this->request->POST;
@@ -148,8 +154,6 @@ class AuthController extends BaseController
             // Redirect to the home page
             Redirector::redirect('/');
         }
-
-        exit;
     }
 
     /**
@@ -163,7 +167,6 @@ class AuthController extends BaseController
         Session::remove('user_id');
 
         Redirector::redirect('/login');
-
     }
 
 

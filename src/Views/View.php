@@ -22,6 +22,7 @@ class View
      */
     private array $components = [];
 
+
     /**
      * Create a view
      * @param string $path The relative path to the view
@@ -37,7 +38,19 @@ class View
         $this->name ??= $this->path;
     }
 
-    public function useComponent(Component $component, bool $required=true): self
+    private static function getPlaceholderMatchRegex(?string $prefix=null, bool $prefixOptional=true): string
+    {
+
+        $matchNameRegex = "[a-zA-Z-]+";
+        if (! is_null($prefix)) {
+            return "/\{\{ *$prefix:($matchNameRegex) *\}\}/";
+        }
+
+        return "/\{\{ *($matchNameRegex) *\}\}/";
+
+    }
+
+    public function useComponent(Component $component): self
     {
         $this->components[$component->name] = $component;
 
@@ -63,7 +76,8 @@ class View
     {
 
         // Match all the component placeholders
-        preg_match_all("/\{\{ *component:([a-zA-Z-]+) *\}\}/", $viewContent, $includeComponentsMatch);
+        $componentMatchRegex = static::getPlaceholderMatchRegex('component');
+        preg_match_all($componentMatchRegex, $viewContent, $includeComponentsMatch);
 
         // Get the name of the components to include
         $includeComponentsName = $includeComponentsMatch[1] ?? [];

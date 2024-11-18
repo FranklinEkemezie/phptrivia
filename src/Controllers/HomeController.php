@@ -23,7 +23,7 @@ class HomeController extends BaseController
         $signupError = (RequestPortal::catch('signup-error', $this->request->path)) ?? [];
 
         return new Response(200, 
-            (new View('index', layout: new Layout('layout', placeholderValues: ['title' => 'Welcome'])))
+            (new View('index', layout: new Layout('main-layout', placeholderValues: ['title' => 'Welcome'])))
                 ->useComponent(new Component('signup-modal', placeholderValues: $signupError))
         );
     }

@@ -31,13 +31,23 @@
 
                         <!-- Leaderboard -->
                         <li class="nav-item">
-                            <a class="nav-link" href="/leaderboard">Leaderboard</a>
+                            <a class="nav-link" href="/dashboard/leaderboard">Leaderboard</a>
                         </li>
 
                         <!-- About -->
                         <li class="nav-item">
                             <a class="nav-link" href="/about">About</a>
                         </li>
+
+                        <div class="ms-md-4 my-3 my-md-0">
+                            <!-- Profile pix -->
+
+                            <a href="/logout" class="btn border border-secondary">
+                                <i class="fa fa-sign-out me-2"></i>
+                                Logout
+                            </a>
+
+                        </div>
                     </ul>
                 </div>
             </div>

@@ -30,11 +30,11 @@ class AuthMiddleware extends BaseMiddleware
         }
         [$authRequired, $authRedirectUrl] = $authInfo;
 
-        // If authentication is required but not provided
+        // If authentication is required, but not provided
         if ($authRequired && ! $request->isAuth()) {
             FlashMessage::flash(new FlashMessage('auth-required', 'Please login to continue', $authRedirectUrl, 'warning'));
 
-            Redirector::redirect($authRedirectUrl);
+            Redirector::redirect("$authRedirectUrl?r=$path");
         }
         // If authentication is not required, but is provided
         else if (! $authRequired && $request->isAuth()) {

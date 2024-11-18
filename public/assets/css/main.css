@@ -28,13 +28,14 @@ main {
 }
 
 /* Disable Bootstrap default */
-a {
+a:not(.list-group-item) {
     text-decoration: none !important;
     color: var(--phptrivia-primary) !important;
 }
-a:hover {
+a:not(.list-group-item):hover {
     color: var(--phptrivia-secondary) !important;
 }
+
 
 .text-primary {
     color: var(--phptrivia-primary) !important;
@@ -44,8 +45,18 @@ a:hover {
     color: var(--phptrivia-secondary) !important;
 }
 
+.bg-primary {
+    background-color: var(--phptrivia-primary) !important;
+}
+.bg-secondary {
+    background-color: var(--phptrivia-secondary) !important;
+}
+
 .btn {
     box-shadow: none !important;
+}
+.btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 .btn-primary {
     background-color: var(--phptrivia-primary) !important;
@@ -80,3 +91,14 @@ a:hover {
     background-color: var(--phptrivia-primary) !important;
 }
 
+.border-primary {
+    border-color: var(--phptrivia-primary) !important;
+}
+.border-secondary {
+    border-color: var(--phptrivia-secondary) !important;
+}
+
+.list-group-item.active {
+    background-color: var(--phptrivia-secondary);
+    color: var(--phptrivia-white) !important;
+}
