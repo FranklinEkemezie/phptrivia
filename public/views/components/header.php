@@ -26,7 +26,7 @@
 
                         <!-- Quizzes -->
                         <li class="nav-item">
-                            <a class="nav-link" href="/quiz">Quizzes</a>
+                            <a class="nav-link" href="/dashboard/quizzes">Quizzes</a>
                         </li>
 
                         <!-- Leaderboard -->

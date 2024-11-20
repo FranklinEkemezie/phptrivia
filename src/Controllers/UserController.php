@@ -22,10 +22,11 @@ class UserController extends BaseController
         $user = (new UserModel($this->config->db))->getUserWithUID($userUID);
 
 
+
         return new Response(200, (new View(
-            'dashboard', null, new Layout(
+            'dashboard', null, (new Layout(
                 'main-layout', placeholderValues: ['title' => 'Dashboard']
-            )
+            ))->useStyleSheets('dashboard', 'def', 'forms', 'process')
         ))->useComponent(
             new Component('dashboard/dashboard', 'main-content', placeholderValues: ['username' => $user->username])
         ));
@@ -41,15 +42,15 @@ class UserController extends BaseController
         $user = (new UserModel($this->config->db))->getUserWithUID($userUID);
 
         return new Response(200, (new View(
-            'dashboard', null, new Layout(
+            'dashboard', null, (new Layout(
                 'main-layout', placeholderValues: ['title' => 'Dashboard']
-            )
+            ))->useStyleSheets('dashboard')
         ))->useComponent(
             new Component('dashboard/profile', 'main-content',
             placeholderValues: [
                 'username'  => $user->username,
                 'email'     => $user->email,
-                'experience-level'=>$user->experienceLevel
+                'experience_level'=>$user->experienceLevel
             ])
         ));
 

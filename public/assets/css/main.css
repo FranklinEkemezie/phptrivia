@@ -28,11 +28,16 @@ main {
 }
 
 /* Disable Bootstrap default */
-a:not(.list-group-item) {
+a
+:not(.list-group-item)
+:not(.btn) {
     text-decoration: none !important;
     color: var(--phptrivia-primary) !important;
 }
-a:not(.list-group-item):hover {
+a
+:not(.list-group-item)
+:not(.btn)
+:hover {
     color: var(--phptrivia-secondary) !important;
 }
 

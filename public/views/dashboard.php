@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="../assets/css/dashboard.css">
-
 <main>
     <section>
         <div class="main-container container-fluid px-0">
@@ -20,7 +18,7 @@
                 <div class="offcanvas-body px-0">
                     <div class="list-group list-group-flush my-3">
                         <a href="/dashboard" class="list-group-item list-group-item-action border-bottom active"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
-                        <a href="/dashboard/quiz" class="list-group-item list-group-item-action border-bottom"><i class="bi bi-question-circle me-2"></i> Quizzes</a>
+                        <a href="/dashboard/quizzes" class="list-group-item list-group-item-action border-bottom"><i class="bi bi-question-circle me-2"></i> Quizzes</a>
                         <a href="/dashboard/leaderboard" class="list-group-item list-group-item-action border-bottom"><i class="bi bi-trophy me-2"></i> Leaderboard</a>
                         <a href="/dashboard/profile" class="list-group-item list-group-item-action border-bottom"><i class="bi bi-person me-2"></i>Profile</a>
                     </div>
@@ -32,7 +30,7 @@
                 <div class="offcanvas-body px-0">
                     <div class="list-group list-group-flush my-3">
                         <a href="/dashboard" class="list-group-item list-group-item-action border-bottom active"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
-                        <a href="/dashboard/quiz" class="list-group-item list-group-item-action border-bottom"><i class="bi bi-question-circle me-2"></i> Quizzes</a>
+                        <a href="/dashboard/quizzes" class="list-group-item list-group-item-action border-bottom"><i class="bi bi-question-circle me-2"></i> Quizzes</a>
                         <a href="/dashboard/leaderboard" class="list-group-item list-group-item-action border-bottom"><i class="bi bi-trophy me-2"></i> Leaderboard</a>
                         <a href="/dashboard/profile" class="list-group-item list-group-item-action border-bottom"><i class="bi bi-person me-2"></i>Profile</a>
                     </div>

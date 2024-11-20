@@ -39,7 +39,7 @@
                                     </div>
 
                                     <div class="my-3">
-                                        <label for="experience-level-id" class="fw-bold">PHP Experience Level ({{ experience-level }})</label>
+                                        <label for="experience-level-id" class="fw-bold">PHP Experience Level ({{ experience_level }})</label>
                                         <select name="experience-level" id="experience-level-id" class="form-select">
                                             <option value="1">Beginner</option>
                                             <option value="2">Intermediate</option>

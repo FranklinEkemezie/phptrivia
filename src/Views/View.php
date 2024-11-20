@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Views;
 
 use App\Exceptions\ViewException;
+use App\Utils\ViewRenderer;
 
 /**
  * @property-read string $path
@@ -16,11 +17,29 @@ use App\Exceptions\ViewException;
 
 class View
 {
-    protected const INCLUDE_DIR = PUBLIC_VIEWS_FOLDER;
+    protected const INCLUDE_DIR     = PUBLIC_VIEWS_FOLDER;
+    protected const STYLESHEET_DIR  = '../../assets/css/';
+    protected const JAVASCRIPT_DIR  = '../../assets/js/';
+
     /**
+     * View components used by the view
      * @var Component[] $components
      */
+
     private array $components = [];
+
+    /**
+     * CSS stylesheets used by the view
+     * @var string[] $stylesheets
+     */
+    private array $stylesheets = [];
+
+    /**
+     * JavaScript files used by the view
+     * @var string[] $javascripts
+     */
+    private array $javascripts = [];
+
 
 
     /**
@@ -53,6 +72,20 @@ class View
     public function useComponent(Component $component): self
     {
         $this->components[$component->name] = $component;
+
+        return $this;
+    }
+
+    public function useStyleSheets(string ...$paths): self
+    {
+        array_push($this->stylesheets, ...$paths);
+
+        return $this;
+    }
+
+    public function useJavaScript(string ...$paths): self
+    {
+        array_push($this->javascripts, ...$paths);
 
         return $this;
     }
@@ -102,39 +135,29 @@ class View
 
     protected function renderVariables(string $viewContent): string
     {
-        // Match all the variable placeholders
-        preg_match_all("/\{\{ *(:?)([a-zA-Z-_]+) *\}\}/", $viewContent, $placeholdersMatch);
         
-        // Parse the placeholders and replace them
-        foreach(($placeholdersMatch[2] ?? []) as $i => $placeholder) {
-            // Update the view, replacing the variable placeholders with the values
-            // given, and empty string if not provided
-
-            $viewContent = preg_replace(
-                "/\{\{ *(:?)$placeholder *\}\}/",
-                (string) $this->placeholderValues[$placeholder] ?? 
-                    // Check if it is optional
-                    (
-                        $placeholdersMatch[1][$i] === ":" ? "" :
-                        throw new ViewException("No value for placeholder {{ $placeholder }}")
-                    ),
-                $viewContent
-            );
-        }
-
-        return $viewContent;
+        return ViewRenderer::renderVariables(
+            $viewContent,
+            $this->placeholderValues,
+            onError: fn(string $message) => throw new ViewException($message)
+        );
     }
 
     protected function renderViewContent(): string
     {
 
+        $viewPath = $this->getViewPath();
+
         // Start output buffering
         ob_start();
-        include $this->getViewPath();
+        include $viewPath;
         $viewContent = ob_get_clean();
         if ($viewContent === false) {
             throw new ViewException("Something went wrong rendering view: $viewPath");
         }
+
+        // Render the directives first
+        $viewContent = $this->renderDirectives($viewContent);
 
         // Render the variables in the view
         $viewContent = $this->renderVariables($viewContent);
@@ -157,6 +180,9 @@ class View
         if ($layoutContent === false) {
             throw new ViewException("Something went wrong rendering layout view: $layoutPath");
         }
+
+        // Render the directives first
+        $layoutContent = $this->layout->renderDirectives($layoutContent);
 
         // Render the placeholders in the layout
         $layoutContent = $this->layout->renderVariables($layoutContent);
@@ -192,13 +218,38 @@ class View
         return $layoutContent;
     }
 
+    protected function renderDirectives(string $viewContent): string
+    {
+        $stylesheets = array_map(function(string $path) {
+            return static::STYLESHEET_DIR . $path . '.css';
+        }, $this->stylesheets);
+
+        $javascripts = array_map(function(string $path) {
+            return static::JAVASCRIPT_DIR . $path . '.js';
+        }, $this->javascripts);
+
+        $placeholderValues = array_merge(
+            $this->placeholderValues,
+            ['stylesheets' => $stylesheets],
+            ['javascripts' => $javascripts]
+        );
+
+        return ViewRenderer::renderDirectives(
+            $viewContent,
+            $placeholderValues,
+            onError: fn(string $message) => throw new ViewException($message)
+        );
+    }
+
     public function render(): string
     {
 
-        return is_null($this->layout) ? 
+        $viewContent = is_null($this->layout) ? 
             $this->renderViewContent() :
             $this->renderViewLayout()
         ;
+
+        return $viewContent;
 
     }
 

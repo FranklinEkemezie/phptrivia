@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Core;
 
-use App\Exceptions\ControllerException;
 use App\Middlewares\AuthMiddleware;
 use App\Middlewares\FlashMessageMiddleware;
 use App\Utils\Config;
@@ -43,7 +42,7 @@ class App
         } catch(\App\Exceptions\DBException $e) {
             throw new \App\Exceptions\DBException($e->getMessage(), (int) $e->getCode());
         } catch (\Exception $e) {
-            throw new ControllerException($e->getMessage(), (int) $e->getCode());
+            throw new \App\Exceptions\ControllerException($e->getMessage(), (int) $e->getCode());
         }
         
         // Handle flash message

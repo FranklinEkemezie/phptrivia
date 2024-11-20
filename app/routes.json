@@ -56,6 +56,13 @@
             "auth": [true, "/login"]
         }
     },
+    "/dashboard/quizzes": {
+        "GET": {
+            "controller": "Quiz",
+            "handler": "getQuizzes",
+            "auth": [true, "/login"]
+        }
+    },
     "/quiz/:quizId": {
         "GET": {
             "controller": "Quiz",

@@ -5,18 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHPTrivia - {{ title }}</title>
 
-    <!-- Include CSS files -->
-    <!-- {{ @for:stylesheet=>stylesheets }}
-        <link rel="stylesheet" href="{{ stylesheet.href }}" />
-    {{ @endfor }} -->
-
-    <!-- Include JavaScript files -->
-    <!-- {{ @for:script=>scripts }}
-        <script src="{{ script.src }}" defer></script>
-    {{ @endfor }} -->
-
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css" />
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Bootstrap Icons -->
@@ -29,6 +19,17 @@
 
     <!-- Custom Javascript -->
     <script src="../../assets/js/main.js" defer></script>
+
+    <!-- Include other CSS files -->
+    {{ @for:stylesheet => stylesheets }}
+
+    <link rel="stylesheet" href="{{ stylesheets.stylesheet }}" />
+    {{ @endfor }}
+
+    <!-- Include other JavaScript files -->
+    {{ @for:javascript => :javascripts }}
+    <script src="{{ javascript }}" defer></script>
+    {{ @endfor }}
 
     <style>
         body {
